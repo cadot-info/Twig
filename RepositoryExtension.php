@@ -8,7 +8,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-class repositoryExtension extends AbstractExtension
+class RepositoryExtension extends AbstractExtension
 {
     protected $em;
 
