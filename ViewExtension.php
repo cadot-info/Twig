@@ -61,7 +61,7 @@ class ViewExtension extends AbstractExtension
             case 'gif':
             case 'png':
                 $imageData = base64_encode(file_get_contents($file));
-                return 'data: ' . mime_content_type($file) . ';base64,' . $imageData;
+                return 'data:' . mime_content_type($file) . ';base64,' . $imageData;
                 break;
             default:
                 return $file;
@@ -122,7 +122,7 @@ class ViewExtension extends AbstractExtension
         $dom->save('/tmp/' . $nom . '.svg');
         // if (!file_exists('/app/vendor/wgenial/php-mimetypeicon/icons/' . $taille)) {
         $adresse = '/app/vendor/wgenial/php-mimetypeicon/icons/scalable/' . str_replace('/', '-', mime_content_type($file)) . '.svg';
-        return 'data:image/svg+xml;base64,' . base64_encode($this->unescape(file_get_contents('/tmp/' . $nom . '.svg')));
+        return "data:image/svg+xml;base64," . base64_encode($this->unescape(file_get_contents('/tmp/' . $nom . '.svg')));
         // }
 
         //ancien système avec image
