@@ -39,6 +39,9 @@ class ViewExtension extends AbstractExtension
             if (file_exists('/app/public/' . $file)) {
                 $file = '/app/public/' . $file;
             }
+            if (file_exists('/app/public/uploads/' . $file)) {
+                $file = '/app/public/uploads/' . $file;
+            }
         }
         $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         switch ($ext) {
