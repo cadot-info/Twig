@@ -27,16 +27,18 @@ class ReorderExtension extends AbstractExtension
     {
         $array = [];
         $objet = $this->em->getRepository("App:" . ucfirst($repository))->findall();
-        $sortable = explode(',', $this->em->getRepository("App:Sortable")->findOneBy(['entite' => $repository])->getordre()); //tableau des ordres
-        foreach ($sortable as $index => $num) {
-            $res =  array_filter(
-                $objet,
-                function ($e) use (&$num) {
-                    return $e->getId() == $num;
-                }
-            );
-            $array[$index] = reset($res);
-        }
-        return $array;
+        if ($base = $this->em->getRepository("App:Sortable")->findOneBy(['entite' => $repository])) {
+            $sortable = explode(',', $base->getordre()); //tableau des ordres
+            foreach ($sortable as $index => $num) {
+                $res =  array_filter(
+                    $objet,
+                    function ($e) use (&$num) {
+                        return $e->getId() == $num;
+                    }
+                );
+                $array[$index] = reset($res);
+            }
+            return $array;
+        } else return $objet;
     }
 }
