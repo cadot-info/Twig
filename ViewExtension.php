@@ -32,40 +32,43 @@ class ViewExtension extends AbstractExtension
     public function voir($file)
     {
         //pour prendre directement en public
-        if (!file_exists($file)) {
-            if (file_exists('/app/public' . $file)) {
-                $file = '/app/public' . $file;
+        if ($file != '') {
+            if (!file_exists($file)) {
+                if (file_exists('/app/public' . $file)) {
+                    $file = '/app/public' . $file;
+                }
+                if (file_exists('/app/public/' . $file)) {
+                    $file = '/app/public/' . $file;
+                }
+                if (file_exists('/app/public/uploads/' . $file)) {
+                    $file = '/app/public/uploads/' . $file;
+                }
             }
-            if (file_exists('/app/public/' . $file)) {
-                $file = '/app/public/' . $file;
+            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            switch ($ext) {
+                case 'pdf':
+                    $nompdf = uniqid();
+                    $pdflib = new PDFLib();
+                    $pdflib->setPdfPath($file);
+                    $pdflib->setOutputPath('/tmp');
+                    $pdflib->setImageFormat(PDFLib::$IMAGE_FORMAT_JPEG);
+                    $pdflib->setDPI(150);
+                    $pdflib->setPageRange(1, $pdflib->getNumberOfPages());
+                    $pdflib->setFilePrefix($nompdf); // Optional
+                    $pdflib->convert();
+                    $file =  '/tmp/' . $nompdf . '1.jpg';
+                    // no break
+                case 'jpg':
+                case 'jpeg':
+                case 'gif':
+                case 'png':
+                    $imageData = base64_encode(file_get_contents($file));
+                    return 'data:' . mime_content_type($file) . ';base64,' . $imageData;
+                    break;
+                default:
+                    return $file;
+                    break;
             }
-            if (file_exists('/app/public/uploads/' . $file)) {
-                $file = '/app/public/uploads/' . $file;
-            }
-        }
-        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-        switch ($ext) {
-            case 'pdf':
-                $nompdf = uniqid();
-                $pdflib = new PDFLib();
-                $pdflib->setPdfPath($file);
-                $pdflib->setOutputPath('/tmp');
-                $pdflib->setImageFormat(PDFLib::$IMAGE_FORMAT_JPEG);
-                $pdflib->setDPI(150);
-                $pdflib->setPageRange(1, $pdflib->getNumberOfPages());
-                $pdflib->setFilePrefix($nompdf); // Optional
-                $pdflib->convert();
-                $file =  '/tmp/' . $nompdf . '1.jpg';
-            case 'jpg':
-            case 'jpeg':
-            case 'gif':
-            case 'png':
-                $imageData = base64_encode(file_get_contents($file));
-                return 'data:' . mime_content_type($file) . ';base64,' . $imageData;
-                break;
-            default:
-                return $file;
-                break;
         }
     }
 
