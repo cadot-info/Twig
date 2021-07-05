@@ -29,21 +29,23 @@ class ViewExtension extends AbstractExtension
      *
      * @return void
      */
-    public function voir($file)
+    public function voir($infile)
     {
         //pour prendre directement en public
-        if ($file != '') {
-            if (!file_exists($file)) {
-                if (file_exists('/app/public' . $file)) {
-                    $file = '/app/public' . $file;
+        if ($infile != '') {
+            if (!file_exists($infile)) {
+                if (file_exists('/app/public' . $infile)) {
+                    $file = '/app/public' . $infile;
                 }
-                if (file_exists('/app/public/' . $file)) {
-                    $file = '/app/public/' . $file;
+                if (file_exists('/app/public/' . $infile)) {
+                    $file = '/app/public/' . $infile;
                 }
-                if (file_exists('/app/public/uploads/' . $file)) {
-                    $file = '/app/public/uploads/' . $file;
+                if (file_exists('/app/public/uploads/' . $infile)) {
+                    $file = '/app/public/uploads/' . $infile;
                 }
             }
+        }
+        if (isset($file)) {
             $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
             switch ($ext) {
                 case 'pdf':
@@ -69,7 +71,8 @@ class ViewExtension extends AbstractExtension
                     return $file;
                     break;
             }
-        }
+        } else
+            return ('image non présente');
     }
 
     /***************************************************************************************************

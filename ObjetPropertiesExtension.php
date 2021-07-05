@@ -12,6 +12,7 @@ class ObjetPropertiesExtension extends AbstractExtension
     {
         return [
             new TwigFilter('objetProperties', [$this, 'objetProperties']),
+            new TwigFilter('cleanhtml', [$this, 'cleanhtml']),
         ];
     }
 
@@ -26,5 +27,9 @@ class ObjetPropertiesExtension extends AbstractExtension
             $response[] = $clef;
         }
         return $response;
+    }
+    public function cleanhtml($str)
+    {
+        return strip_tags(html_entity_decode($str, ENT_QUOTES));
     }
 }
