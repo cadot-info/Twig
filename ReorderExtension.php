@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig;
+namespace App\CMTwig;
 
 use Twig\TwigFilter;
 use Twig\TwigFunction;

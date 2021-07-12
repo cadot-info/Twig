@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig;
+namespace App\CMTwig;
 
 use DOMDocument;
 use Twig\TwigFilter;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig;
+namespace App\CMTwig;
 
 use Symfony\Component\Asset\Packages;
 use Twig\Extension\AbstractExtension;
