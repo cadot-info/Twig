@@ -24,7 +24,8 @@ class ImgExtension extends AbstractExtension
             new TwigFunction('img', [$this, 'img'], ['is_safe' => ['html']]),
         ];
     }
-
+    // renvoie directement une balise img avec son src avec plusieurs taille en fonction de la largeur d'écran
+    // combiné avec liipimagine, supporte les class, les styles et le lazy
     public function img($image, $size = '', $class = '', $style = '', $tooltip = '')
     {
         $taille = '100%';
@@ -37,7 +38,6 @@ class ImgExtension extends AbstractExtension
         $tab = explode('/', $image);
         $alt = str_replace('_', ' ', explode('.', end($tab))[0]);
         $alt = str_replace('-', "'", $alt);
-
         $return = '
              <img src="' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "lazy") . '" 
              data-srcset="
