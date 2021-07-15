@@ -43,6 +43,7 @@ class ImgExtension extends AbstractExtension
              data-srcset="
                ' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "mini") . ' 100w,
               ' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "petit") . ' 300w,
+               ' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "semi") . ' 450w,
              ' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "moyen") . ' 600w,
              ' . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "grand") . ' 900w"
              class="lazyload ' . $class . '" data-sizes="auto"
