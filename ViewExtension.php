@@ -3,11 +3,10 @@
 namespace App\CMTwig;
 
 use DOMDocument;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
+//composer require imal-h/pdf-box
 use ImalH\PDFLib\PDFLib;
 use Twig\Extension\AbstractExtension;
-use WGenial\PHPMimeTypeIcon\PHPMimeTypeIcon;
 
 class ViewExtension extends AbstractExtension
 {
@@ -59,13 +58,14 @@ class ViewExtension extends AbstractExtension
                     $pdflib->setFilePrefix($nompdf); // Optional
                     $pdflib->convert();
                     $file =  '/tmp/' . $nompdf . '1.jpg';
-                    // no break
+                    break;
                 case 'jpg':
                 case 'jpeg':
                 case 'gif':
                 case 'png':
                     $imageData = base64_encode(file_get_contents($file));
                     return 'data:' . mime_content_type($file) . ';base64,' . $imageData;
+
                     break;
                 default:
                     return $file;
