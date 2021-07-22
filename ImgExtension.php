@@ -69,7 +69,7 @@ class ImgExtension extends AbstractExtension
             $alt = $tooltip;
         if ($modal !== false)
             $return =
-                "<a data-toggle='popover-hover' data-img=\"" . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "grand") . "\">";
+                "<a  data-toggle='popover-hover' style=\"cursor:zoom-in;\" data-img=\"" . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "grand") . "\">";
 
         $return .= '
              <img title="' . $tooltip . '" src="' .  $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "mini") . '"
