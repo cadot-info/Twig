@@ -64,16 +64,22 @@ class ImgExtension extends AbstractExtension
         $tab = explode('/', $image);
         $alt = str_replace('_', ' ', explode('.', end($tab))[0]);
         $alt = str_replace('-', "'", $alt);
+        if (!$tooltip) $tooltip = $alt;
+        else
+            $alt = $tooltip;
         if ($modal !== false)
             $return =
                 "<a data-toggle='popover-hover' data-img=\"" . $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "grand") . "\">";
 
         $return .= '
-             <img src="' .  $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "mini") . '"
+             <img title="' . $tooltip . '" src="' .  $this->CacheManager->getBrowserPath($this->Package->getUrl($image), "mini") . '"
              class="' . $class . '" style="' . $taille . ';' . $style . '" alt="' . ucfirst($alt) . '"';
-        $return .= 'data-toggle="tooltip" data-placement="top" title="' . $tooltip . '" />';
+
         if ($modal !== false)
-            $return .= "</a>";
+            $return .= "/></a>";
+        else {
+            $return .= 'data-toggle="tooltip" data-placement="top" title="' . $tooltip . '" /></a>';
+        }
         return $return;
     }
 }
