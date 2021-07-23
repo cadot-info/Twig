@@ -163,7 +163,7 @@ class ImgExtension extends AbstractExtension
         // return 'data: ' . mime_content_type(getcwd() . $file) . ';base64,' . $imageData;
     }
     //pour le svg
-    //nettoir le svf pour pouvoir le convertir en base64
+    //nettoie le svg pour pouvoir le convertir en base64
     function unescape($str)
     {
         $ret = '';
