@@ -64,15 +64,26 @@ class ImgExtension extends AbstractExtension
         $return = '';
         if ($size) $taille = $size;
         else $taille = 'width:100px';
+        //détermination du alt
         $tab = explode('/', $image);
         $alt = str_replace('_', ' ', explode('.', end($tab))[0]);
         $alt = str_replace('-', "'", $alt);
+        //si on a un tooltip
         if (!$tooltip) {
             $tooltip = $alt;
         } else {
             $alt = $tooltip;
         }
+        //correction du répertoire
         if (isset($image)) {
+            if (!file_exists($image)) {
+                if (file_exists('/app/public/' . $image)) {
+                    $image = '/' . $image;
+                }
+                if (file_exists('/app/public/uploads/' . $image)) {
+                    $image = '/uploads/' . $image;
+                }
+            }
             $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
             switch ($ext) {
                 case 'jpg':
