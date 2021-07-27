@@ -27,7 +27,7 @@ class ReorderExtension extends AbstractExtension
     {
         $array = [];
         $objet = $this->em->getRepository("App:" . ucfirst($repository))->findall();
-        if ($base = $this->em->getRepository("App:Sortable")->findOneBy(['entite' => $repository])) {
+        if ($base = $this->em->getRepository("App:Sortable")->findOneBy(['entite' => ucfirst($repository)])) {
             $sortable = explode(',', $base->getordre()); //tableau des ordres
             foreach ($sortable as $index => $num) {
                 $res =  array_filter(
