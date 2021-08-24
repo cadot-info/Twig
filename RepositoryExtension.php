@@ -62,7 +62,7 @@ class RepositoryExtension extends AbstractExtension
      */
     public function findOneBy(string $repository, array $criteria, array $orderBy = null)
     {
-        return $this->em->getRepository("App:" . ucfirst($repository))->findOneBy($criteria,  $orderBy = null);
+        //return $this->em->getRepository("" . ucfirst($repository))->findOneBy($criteria,  $orderBy = null);
     }
     /**
      * Method findBy
