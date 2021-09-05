@@ -4,16 +4,18 @@ namespace App\CMTwig;
 
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use App\CMService\FunctionEntitie;
 use Twig\Extension\AbstractExtension;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReorderExtension extends AbstractExtension
 {
-    protected $em;
+    protected $em, $fe;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, FunctionEntitie $fe)
     {
         $this->em = $em;
+        $this->fe = $fe;
     }
 
     public function getFunctions(): array
@@ -23,22 +25,8 @@ class ReorderExtension extends AbstractExtension
         ];
     }
 
-    public function reorder($repository)
+    public function reorder($repository, $donnees = '')
     {
-        $array = [];
-        $objet = $this->em->getRepository("App:" . ucfirst($repository))->findall();
-        if ($base = $this->em->getRepository("App:Sortable")->findOneBy(['entite' => ucfirst($repository)])) {
-            $sortable = explode(',', $base->getordre()); //tableau des ordres
-            foreach ($sortable as $index => $num) {
-                $res =  array_filter(
-                    $objet,
-                    function ($e) use (&$num) {
-                        return $e->getId() == $num;
-                    }
-                );
-                $array[$index] = reset($res);
-            }
-            return $array;
-        } else return $objet;
+        return $this->fe->reorder($repository, $donnees);
     }
 }
