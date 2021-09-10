@@ -2,12 +2,26 @@
 
 namespace App\CMTwig;
 
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Durlecode\EJSParser\Parser;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Twig\Extension\AbstractExtension;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 class EditorjsExtension extends AbstractExtension
 {
+
+    private $roles, $container;
+    public function __construct(Security $security, ContainerInterface $container)
+    {
+        $this->container = $container;
+        if ($security->getUser() !== null)
+            $this->roles = ($security->getUser()->getRoles());
+    }
+
+
 
 
     public function
@@ -26,10 +40,41 @@ class EditorjsExtension extends AbstractExtension
     public function ejsrender($json)
     {
         //return $json;
-        $html = new \Twig\Markup(Parser::parse($json)->toHtml(), 'UTF-8');
+
+        $tabs = json_decode($json);
+        //on liste les objets
+        foreach ($tabs->blocks as $num => $tab) {
+            $data = '';
+            switch ($tab->type) {
+                case 'paragraph':
+                case 'header':
+                    $data = $tab->data->text;
+                    if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->text = substr($tab->data->text, 2);
+                    break;
+                case 'image':
+                    $data = $tab->data->caption;
+                    if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->caption = substr($tab->data->caption, 2);
+                    $width = getimagesize(getcwd() . $tab->data->url)[0];
+                    //limit width
+                    if ($width > 1920) {
+                        $imagineCacheManager = $this->container->get('liip_imagine.cache.manager');
+                        $resolvedPath = $imagineCacheManager->getBrowserPath($tab->data->url, 'fullhd');
+                        $tabs->blocks[$num]->data->url = $resolvedPath;
+                    }
+                    break;
+            }
+            //si pas le droit de voir on supprime
+            if (strpos($data, '¤') !== false)
+                if (substr(html_entity_decode($data), 0, 2) == '¤' and $this->roles == null)
+                    unset($tabs->blocks[$num]);
+        }
+
+        $json = json_encode($tabs);
+        $html = null;
+        if ($tabs->blocks)
+            $html = new \Twig\Markup(Parser::parse($json)->toHtml(), 'UTF-8');
         //ajout des finctionnalitées propre à mickcrud
         //travaille sur les images en ajoutant un filtre liip
-
         return $html;
     }
     public function firstImage($json)
@@ -37,7 +82,10 @@ class EditorjsExtension extends AbstractExtension
 
         $tab = json_decode($json)->blocks;
         foreach ($tab as $key => $value) {
-            if ($value->type == 'image') return $value->data->url;
+            if ($value->type == 'image') {
+                if ($this->roles != null or substr(html_entity_decode($value->data->caption), 0, 2) != '¤')
+                    return $value->data->url;
+            }
         }
         //return $html;
     }
@@ -45,7 +93,9 @@ class EditorjsExtension extends AbstractExtension
     {
         $tab = json_decode($json)->blocks;
         foreach ($tab as $key => $value) {
-            if ($value->type == 'header') return $value->data->text;
+            if ($value->type == 'header')
+                if ($this->roles != null or substr(html_entity_decode($value->data->text), 0, 2) != '¤')
+                    return strip_tags(str_replace('¤', '', $value->data->text));
         }
         //return $html;
     }
@@ -53,8 +103,9 @@ class EditorjsExtension extends AbstractExtension
     {
         $tab = json_decode($json)->blocks;
         foreach ($tab as $key => $value) {
-            if ($value->type == 'paragraph') return $value->data->text;
+            if ($value->type == 'paragraph')
+                if ($this->roles != null or substr(html_entity_decode($value->data->text), 0, 2) != '¤')
+                    return strip_tags(str_replace('¤', '', $value->data->text));
         }
-        //return $html;
     }
 }
