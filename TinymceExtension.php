@@ -60,7 +60,7 @@ class TinymceExtension extends AbstractExtension
     public function tmcefirstText($texte)
     {
         dump($texte);
-        $pos = strpos($texte, '<p><!-- pagebreak --></p>');
+        $pos = strpos($texte, '<!-- pagebreak -->');
         if ($pos !== false)
             return strip_tags(substr($texte, 0, $pos));
         else
