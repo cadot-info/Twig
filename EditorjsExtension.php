@@ -29,9 +29,9 @@ class EditorjsExtension extends AbstractExtension
     {
         return [
             new TwigFunction('ejsrender', [$this, 'ejsrender', ['is_safe' => ['html']]]),
-            new TwigFunction('firstImage', [$this, 'firstImage', ['is_safe' => ['html']]]),
-            new TwigFunction('firstHeader', [$this, 'firstHeader', ['is_safe' => ['html']]]),
-            new TwigFunction('firstText', [$this, 'firstText', ['is_safe' => ['html']]]),
+            new TwigFunction('ejsfirstImage', [$this, 'ejsfirstImage', ['is_safe' => ['html']]]),
+            new TwigFunction('ejsfirstHeader', [$this, 'ejsfirstHeader', ['is_safe' => ['html']]]),
+            new TwigFunction('ejsfirstText', [$this, 'ejsfirstText', ['is_safe' => ['html']]]),
 
 
         ];
@@ -77,7 +77,7 @@ class EditorjsExtension extends AbstractExtension
         //travaille sur les images en ajoutant un filtre liip
         return $html;
     }
-    public function firstImage($json)
+    public function ejsfirstImage($json)
     {
 
         $tab = json_decode($json)->blocks;
@@ -89,7 +89,7 @@ class EditorjsExtension extends AbstractExtension
         }
         //return $html;
     }
-    public function firstHeader($json)
+    public function ejsfirstHeader($json)
     {
         $tab = json_decode($json)->blocks;
         foreach ($tab as $key => $value) {
@@ -99,7 +99,7 @@ class EditorjsExtension extends AbstractExtension
         }
         //return $html;
     }
-    public function firstText($json)
+    public function ejsfirstText($json)
     {
         $tab = json_decode($json)->blocks;
         foreach ($tab as $key => $value) {
