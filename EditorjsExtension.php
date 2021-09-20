@@ -51,17 +51,17 @@ class EditorjsExtension extends AbstractExtension
                     $data = $tab->data->text;
                     if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->text = substr($tab->data->text, 2);
                     break;
-                case 'image':
-                    $data = $tab->data->caption;
-                    if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->caption = substr($tab->data->caption, 2);
-                    $width = getimagesize(getcwd() . $tab->data->url)[0];
-                    //limit width
-                    if ($width > 1920) {
-                        $imagineCacheManager = $this->container->get('liip_imagine.cache.manager');
-                        $resolvedPath = $imagineCacheManager->getBrowserPath($tab->data->url, 'fullhd');
-                        $tabs->blocks[$num]->data->url = $resolvedPath;
-                    }
-                    break;
+                    // case 'image':
+                    //     $data = $tab->data->caption;
+                    //     if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->caption = substr($tab->data->caption, 2);
+                    //     $width = getimagesize(getcwd() . $tab->data->url)[0];
+                    //     //limit width
+                    //     if ($width > 1920) {
+                    //         $imagineCacheManager = $this->container->get('liip_imagine.cache.manager');
+                    //         $resolvedPath = $imagineCacheManager->getBrowserPath($tab->data->url, 'fullhd');
+                    //         $tabs->blocks[$num]->data->url = $resolvedPath;
+                    //     }
+                    //     break;
             }
             //si pas le droit de voir on supprime
             if (strpos($data, '¤') !== false)
