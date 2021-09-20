@@ -46,11 +46,11 @@ class EditorjsExtension extends AbstractExtension
         foreach ($tabs->blocks as $num => $tab) {
             $data = '';
             switch ($tab->type) {
-                case 'paragraph':
-                case 'header':
-                    $data = $tab->data->text;
-                    if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->text = substr($tab->data->text, 2);
-                    break;
+                    // case 'paragraph':
+                    // case 'header':
+                    //     $data = $tab->data->text;
+                    //     if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->text = substr($tab->data->text, 2);
+                    //     break;
                     // case 'image':
                     //     $data = $tab->data->caption;
                     //     if (substr(html_entity_decode($data), 0, 2) == '¤') $tabs->blocks[$num]->data->caption = substr($tab->data->caption, 2);
