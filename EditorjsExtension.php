@@ -37,9 +37,9 @@ class EditorjsExtension extends AbstractExtension
         ];
     }
 
-    public function ejsrender($json)
+    public function ejsrender($json, $quality = 'fullhd')
     {
-        dump($json);
+        //dump($json);
         $tabs = json_decode($json);
         //on liste les objets
         foreach ($tabs->blocks as $num => $tab) {
@@ -57,7 +57,7 @@ class EditorjsExtension extends AbstractExtension
                     //limit width
                     if ($width > 1920) {
                         $imagineCacheManager = $this->container->get('liip_imagine.cache.manager');
-                        $resolvedPath = $imagineCacheManager->getBrowserPath($tab->data->url, 'fullhd');
+                        $resolvedPath = $imagineCacheManager->getBrowserPath($tab->data->url, $quality);
                         $tabs->blocks[$num]->data->url = $resolvedPath;
                     }
                     break;
