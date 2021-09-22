@@ -3,11 +3,11 @@
 namespace App\CMTwig;
 
 use Twig\TwigFunction;
-use Durlecode\EJSParser\Parser;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container;
 use Twig\Extension\AbstractExtension;
 use Symfony\Component\Security\Core\Security;
+use App\CMTwig\editorjsSimpleHtmlParser\src\Parser;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 class EditorjsExtension extends AbstractExtension
@@ -39,8 +39,6 @@ class EditorjsExtension extends AbstractExtension
 
     public function ejsrender($json)
     {
-        dump($json);
-
         $tabs = json_decode($json);
         //on liste les objets
         foreach ($tabs->blocks as $num => $tab) {
