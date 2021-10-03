@@ -40,7 +40,9 @@ class EditorjsExtension extends AbstractExtension
     public function ejsrender($json, $quality = 'fullhd')
     {
         //dump($json);
+        //on vérifie ce qui est donné
         $tabs = json_decode($json);
+        if (!\is_object($tabs)) return 'Erreur pas un object:' . $tabs;
         //on liste les objets
         foreach ($tabs->blocks as $num => $tab) {
             $data = '';
@@ -61,6 +63,8 @@ class EditorjsExtension extends AbstractExtension
                         $tabs->blocks[$num]->data->url = $resolvedPath;
                     }
                     break;
+                default:
+                    return $tabs;
             }
             //si pas le droit de voir on supprime
             if (strpos($data, '¤') !== false)
