@@ -25,7 +25,8 @@ class ImgExtension extends AbstractExtension
         return [
             new TwigFunction('img', [$this, 'img'], ['is_safe' => ['html']]),
             new TwigFunction('thumbnail', [$this, 'thumbnail'], ['is_safe' => ['html']]),
-            new TwigFunction('getico', [$this, 'getico', ['is_safe' => ['html']]])
+            new TwigFunction('getico', [$this, 'getico', ['is_safe' => ['html']]]),
+            new TwigFunction('imgToBase64', [$this, 'imgToBase64', ['is_safe' => ['html']]])
         ];
     }
     // renvoie directement une balise img avec son src avec plusieurs taille en fonction de la largeur d'écran
@@ -198,5 +199,11 @@ class ImgExtension extends AbstractExtension
             }
         }
         return $ret;
+    }
+
+    function imgToBase64($url, $inline = false)
+    {
+        $binary = file_get_contents($url);
+        return $inline ? sprintf('data:image/%s;base64,%s', pathinfo($url, PATHINFO_EXTENSION), base64_encode($binary)) : base64_encode($binary);
     }
 }
