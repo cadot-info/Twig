@@ -2,9 +2,9 @@
 
 namespace App\CMTwig;
 
+use App\CMService\EntityFunctions;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use App\CMService\FunctionEntitie;
 use Twig\Extension\AbstractExtension;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,7 +12,7 @@ class ReorderExtension extends AbstractExtension
 {
     protected $em, $fe;
 
-    public function __construct(EntityManagerInterface $em, FunctionEntitie $fe)
+    public function __construct(EntityManagerInterface $em, EntityFunctions $fe)
     {
         $this->em = $em;
         $this->fe = $fe;
